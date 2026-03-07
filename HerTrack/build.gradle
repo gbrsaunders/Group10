@@ -1,7 +1,7 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '4.0.3'
-    id 'io.spring.dependency-management' version '1.1.7'
+    id 'org.springframework.boot' version '3.3.4'
+    id 'io.spring.dependency-management' version '1.1.6'
 }
 
 group = 'com.hackathon'
@@ -16,12 +16,29 @@ java {
 
 repositories {
     mavenCentral()
+    maven { url 'https://repo.spring.io/milestone' } // Milestone releases
+    maven { url 'https://repo.spring.io/snapshot' }  // Optional: Snapshot releases
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
-    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+    implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-M3")
+    implementation 'org.springframework.ai:spring-ai-huggingface-spring-boot-starter'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+    implementation 'org.webjars:sockjs-client:1.0.2'
+    implementation 'org.webjars:stomp-websocket:2.3.3'
+    implementation 'org.webjars:webjars-locator-core'
+    implementation 'org.postgresql:postgresql:42.7.7'
+    runtimeOnly 'org.postgresql:postgresql'
+    compileOnly 'org.projectlombok:lombok:1.18.34'
+    annotationProcessor 'org.projectlombok:lombok:1.18.34'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
 }
 
 tasks.named('test') {
