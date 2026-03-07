@@ -1,1 +1,1 @@
-# Group 10
+# LeicesterCS Hackathon --- Group 10 
