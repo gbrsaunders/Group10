@@ -60,7 +60,7 @@ public class LoginController {
         // Checks if the password equals to the account which they the email is assigned to
         if(acc != null && acc.getPassword().equals(password)){
             System.out.println("AccountID" + acc.getId());
-            return "redirect:/tracker?accountID=" + acc.getId();
+            return "redirect:/dashboard?accountID=" + acc.getId();
         }
         redirectAttributes.addFlashAttribute("error", "Account does not exist or password is incorrect");
         return "redirect:/login";

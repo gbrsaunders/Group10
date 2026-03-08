@@ -12,12 +12,12 @@
         </div>
 
         <nav class="app-nav" id="app-nav">
-            <a th:href="@{/app/dashboard}" class="nav-link"
+            <a th:href="@{/dashboard(accountID=${accountID})}"  class="nav-link"
                th:classappend="${activePage == 'dashboard'} ? ' active'">
                 <i data-lucide="home"></i>
                 <span>Dashboard</span>
             </a>
-            <a th:href="@{/app/tracker}" class="nav-link"
+            <a th:href="@{/tracker(accountID=${accountID})}"  class="nav-link"
                th:classappend="${activePage == 'tracker'} ? ' active'">
                 <i data-lucide="calendar"></i>
                 <span>Tracker</span>
@@ -37,7 +37,7 @@
                 <i data-lucide="library"></i>
                 <span>Uni Resources</span>
             </a>
-            <a th:href="@{/app/extra-resources}" class="nav-link"
+            <a th:href="@{/resources(accountID=${accountID})}" class="nav-link"
                th:classappend="${activePage == 'extra-resources'} ? ' active'">
                 <i data-lucide="plus-circle"></i>
                 <span>Extra Resources</span>

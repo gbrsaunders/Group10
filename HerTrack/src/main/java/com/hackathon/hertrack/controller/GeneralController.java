@@ -31,6 +31,11 @@ public class GeneralController {
     private String resource() {
         return "app/extra-resources";
     }
+    @RequestMapping("/dashboard")
+    private String dashboard(@RequestParam long accountID, Model model) {
+        model.addAttribute("accountID", accountID);
+        return "app/dashboard";
+    }
 
     @RequestMapping("/logPeriod")
     private String periodTracker(@RequestParam long accountID, Model model) {
@@ -58,7 +63,6 @@ public class GeneralController {
         cycleService.saveDetails(cycle);
         accountService.saveDetails(acc);
         System.out.println("Saved at Account ID: " + acc.getId() + " and Cycle " + cycle.getId());
-        model.addAttribute("accountID", acc.getId());
         return "redirect:/tracker?accountID=" + acc.getId();
 
     }
