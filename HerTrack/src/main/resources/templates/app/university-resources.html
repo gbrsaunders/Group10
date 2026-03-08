@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University Resources - HerTrack</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="page active">
+    <!-- Shared Navigation -->
+    <div th:replace="~{fragments/nav :: app-nav}" th:with="activePage='university-resources'"></div>
+
+    <main class="app-main">
+        <div class="resources-grid">
+            <!-- Left Panel: University Services -->
+            <div class="resources-panel">
+                <div class="resources-header">
+                    <h1>
+                        <i data-lucide="info"></i>
+                        University Services
+                    </h1>
+                    <p class="page-subtitle">Find official support, wellness centers, and resources on campus.</p>
+                </div>
+
+                <div class="resource-cards">
+                    <div class="resource-card" style="background:#eef2ff;border-color:#c7d2fe;">
+                        <div class="resource-card-header">
+                            <h3 class="resource-card-title" style="color:#1e1b4b;">Student Health Center</h3>
+                            <i data-lucide="external-link" style="width:1.25rem;height:1.25rem;color:#a5b4fc;"></i>
+                        </div>
+                        <p class="resource-card-description" style="color:rgba(30,27,75,0.8);">
+                            Free consultations, emergency contraception, and mental health support for enrolled students.
+                        </p>
+                        <div class="resource-details" style="color:rgba(30,27,75,0.9);">
+                            <div class="resource-detail-item">
+                                <i data-lucide="clock" style="width:1rem;height:1rem;color:#6366f1;"></i>
+                                Hours: 8:00 AM - 6:00 PM
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="map-pin" style="width:1rem;height:1rem;color:#6366f1;"></i>
+                                Location: Main Building, Ground Floor
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="phone" style="width:1rem;height:1rem;color:#6366f1;"></i>
+                                Phone: (555) 123-4567
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="mail" style="width:1rem;height:1rem;color:#6366f1;"></i>
+                                Email: health@university.edu
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" style="background:#fef2f2;border-color:#fecdd3;">
+                        <div class="resource-card-header">
+                            <h3 class="resource-card-title" style="color:#881337;">Women's Support Network</h3>
+                            <i data-lucide="external-link" style="width:1.25rem;height:1.25rem;color:#fb7185;"></i>
+                        </div>
+                        <p class="resource-card-description" style="color:rgba(136,19,55,0.8);">
+                            A safe space for discussions, free sanitary products pick-up, and peer-to-peer mentoring.
+                        </p>
+                        <div class="resource-details" style="color:rgba(136,19,55,0.9);">
+                            <div class="resource-detail-item">
+                                <i data-lucide="clock" style="width:1rem;height:1rem;color:#e11d48;"></i>
+                                Hours: 10:00 AM - 4:00 PM
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="map-pin" style="width:1rem;height:1rem;color:#e11d48;"></i>
+                                Location: Student Union, Room 402
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="phone" style="width:1rem;height:1rem;color:#e11d48;"></i>
+                                Phone: (555) 987-6543
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="mail" style="width:1rem;height:1rem;color:#e11d48;"></i>
+                                Email: wsn@university.edu
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="resource-card" style="background:#ecfdf5;border-color:#a7f3d0;">
+                        <div class="resource-card-header">
+                            <h3 class="resource-card-title" style="color:#064e3b;">Anonymous Counseling</h3>
+                            <i data-lucide="external-link" style="width:1.25rem;height:1.25rem;color:#6ee7b7;"></i>
+                        </div>
+                        <p class="resource-card-description" style="color:rgba(6,78,59,0.8);">
+                            24/7 hotline and drop-in sessions for any student needing psychological or emotional support.
+                        </p>
+                        <div class="resource-details" style="color:rgba(6,78,59,0.9);">
+                            <div class="resource-detail-item">
+                                <i data-lucide="clock" style="width:1rem;height:1rem;color:#10b981;"></i>
+                                Hours: 24/7 Support
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="map-pin" style="width:1rem;height:1rem;color:#10b981;"></i>
+                                Location: Wellness Center, 3rd Floor
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="phone" style="width:1rem;height:1rem;color:#10b981;"></i>
+                                Phone: 1-800-UNI-HELP
+                            </div>
+                            <div class="resource-detail-item">
+                                <i data-lucide="mail" style="width:1rem;height:1rem;color:#10b981;"></i>
+                                Email: counseling@university.edu
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Sanitary Products Map -->
+            <div class="resources-panel">
+                <div class="resources-header">
+                    <h2 style="font-size:1.5rem;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:0.5rem;margin-bottom:0.25rem;">
+                        <i data-lucide="map-pin" style="width:1.5rem;height:1.5rem;color:#e11d48;"></i>
+                        Sanitary Products Map
+                    </h2>
+                    <p class="page-subtitle" style="font-size:0.875rem;">
+                        Real-time log of university bathrooms with free sanitary products.
+                    </p>
+                </div>
+
+                <div class="search-container">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" id="bathroom-search" class="search-input"
+                           placeholder="Search by building or name...">
+                </div>
+
+                <div class="bathroom-list" id="bathroom-list">
+                    <div th:each="bathroom : ${bathrooms}" class="bathroom-card"
+                         th:attr="data-name=${bathroom.name},data-building=${bathroom.building}">
+                        <div class="bathroom-info">
+                            <h3 th:text="${bathroom.name}">Bathroom Name</h3>
+                            <span class="bathroom-status"
+                                  th:classappend="${bathroom.status == 'Stocked'} ? ' stocked' : ' empty'">
+                                <i th:attr="data-lucide=${bathroom.status == 'Stocked'} ? 'check-circle' : 'alert-triangle'"></i>
+                                <span th:text="${bathroom.status}">Stocked</span>
+                            </span>
+                        </div>
+                        <form th:if="${bathroom.status == 'Stocked'}"
+                              th:action="@{/app/university-resources/report}" method="post" style="margin:0;">
+                            <input type="hidden" name="bathroomId" th:value="${bathroom.id}">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            <button type="submit" class="btn-report">Report Empty</button>
+                        </form>
+                        <div th:if="${bathroom.status != 'Stocked'}" class="restock-pending">
+                            Restock Pending
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="toast-container"></div>
+
+<script th:src="@{/js/shared.js}"></script>
+<script th:src="@{/js/university-resources.js}"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

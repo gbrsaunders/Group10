@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header th:fragment="app-nav" class="app-header">
+    <div class="app-header-content">
+        <div class="app-logo">
+            <a th:href="@{/app/dashboard}" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;color:inherit;">
+                <i data-lucide="heart-pulse"></i>
+                <span class="app-logo-text">HerTrack</span>
+            </a>
+        </div>
+
+        <nav class="app-nav" id="app-nav">
+            <a th:href="@{/app/dashboard}" class="nav-link"
+               th:classappend="${activePage == 'dashboard'} ? ' active'">
+                <i data-lucide="home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a th:href="@{/app/tracker}" class="nav-link"
+               th:classappend="${activePage == 'tracker'} ? ' active'">
+                <i data-lucide="calendar"></i>
+                <span>Tracker</span>
+            </a>
+            <a th:href="@{/app/chat}" class="nav-link"
+               th:classappend="${activePage == 'chat'} ? ' active'">
+                <i data-lucide="message-circle"></i>
+                <span>Chat</span>
+            </a>
+            <a th:href="@{/app/forum}" class="nav-link"
+               th:classappend="${activePage == 'forum'} ? ' active'">
+                <i data-lucide="users"></i>
+                <span>Forum</span>
+            </a>
+            <a th:href="@{/app/university-resources}" class="nav-link"
+               th:classappend="${activePage == 'university-resources'} ? ' active'">
+                <i data-lucide="library"></i>
+                <span>Uni Resources</span>
+            </a>
+            <a th:href="@{/app/extra-resources}" class="nav-link"
+               th:classappend="${activePage == 'extra-resources'} ? ' active'">
+                <i data-lucide="plus-circle"></i>
+                <span>Extra Resources</span>
+            </a>
+            <a th:href="@{/app/admin}" class="nav-link"
+               th:classappend="${activePage == 'admin'} ? ' active'">
+                <i data-lucide="shield"></i>
+                <span>Admin</span>
+            </a>
+        </nav>
+
+        <form th:action="@{/logout}" method="post" style="margin:0;">
+            <button type="submit" class="btn-sign-out">
+                <i data-lucide="log-out"></i>
+                <span>Sign Out</span>
+            </button>
+        </form>
+    </div>
+</header>
+
+</body>
+</html>

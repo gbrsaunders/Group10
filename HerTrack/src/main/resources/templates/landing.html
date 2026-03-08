@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HerTrack - Menstrual Health Platform</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="page active">
+    <header class="landing-header">
+        <div class="header-content">
+            <div class="logo-container">
+                <i data-lucide="heart-pulse" class="logo-icon"></i>
+                <span class="logo-text">HerTrack</span>
+            </div>
+            <a th:href="@{/login}" class="btn btn-primary">Get Started / Login</a>
+        </div>
+    </header>
+
+    <main class="landing-main">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">
+                    Understand your body, <span class="text-gradient">empower your life.</span>
+                </h1>
+                <p class="hero-description">
+                    HerTrack is your modern, all-in-one platform for menstrual health, community support, and wellness tracking.
+                </p>
+                <div class="hero-cta">
+                    <a th:href="@{/login}" class="btn btn-large btn-primary-gradient">
+                        Join HerTrack Today
+                        <i data-lucide="arrow-right" class="btn-icon"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="hero-image-glow"></div>
+                <img src="https://images.unsplash.com/photo-1771931059161-d33d71ae2780?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwaW5rJTIwdGVjaCUyMG1pbmltYWxpc3QlMjBtb2Rlcm4lMjBhYnN0cmFjdCUyMGJhY2tncm91bmR8ZW58MXx8fHwxNzcyOTY5NjcyfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                     alt="Modern tech abstract" class="hero-img">
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="features-header">
+                <h2>Everything you need in one place</h2>
+                <p>Designed with care to provide comprehensive support for your menstrual journey.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="calendar" class="icon-rose"></i>
+                    </div>
+                    <h3>Keep track of your menstrual cycle dates</h3>
+                    <p>Easily log and predict your periods with our smart calendar system.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="heart-pulse" class="icon-rose"></i>
+                    </div>
+                    <h3>Log moods and symptoms</h3>
+                    <p>Track your daily physical and emotional changes to better understand your body.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="stethoscope" class="icon-rose"></i>
+                    </div>
+                    <h3>Receive help from trusted specialists</h3>
+                    <p>Get connected with healthcare professionals for personalized advice.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="message-circle-heart" class="icon-rose"></i>
+                    </div>
+                    <h3>Access anonymised help chats</h3>
+                    <p>Join a supportive community to share experiences safely and anonymously.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i data-lucide="book-open" class="icon-rose"></i>
+                    </div>
+                    <h3>Learn about online resources</h3>
+                    <p>Access a curated library of educational materials and university resources.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="landing-footer">
+        <p>© 2026 HerTrack. All rights reserved.</p>
+    </footer>
+</div>
+
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

@@ -4,16 +4,19 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
+
 @Data
 @Entity
 public class Cycle {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate startDate;
-    @OneToOne
+    private Integer length;
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Symptom symptom;
-    private String status;
-    private String length;
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }
