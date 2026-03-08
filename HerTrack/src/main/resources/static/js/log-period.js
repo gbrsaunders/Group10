@@ -31,3 +31,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// Symptom button toggle — syncs to hidden checkboxes for form submission
+document.querySelectorAll('.symptom-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('selected');
+        const symptomKey = btn.getAttribute('data-symptom');
+        const checkbox = document.getElementById('sym-' + symptomKey);
+        if (checkbox) {
+            checkbox.checked = !checkbox.checked;
+        }
+    });
+});

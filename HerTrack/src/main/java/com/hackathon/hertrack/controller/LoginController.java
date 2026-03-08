@@ -55,12 +55,12 @@ public class LoginController {
     }
     @RequestMapping("/checkLogin")
     // If there is a successful login then redirect to the progress page with account details
-    public String checkLogin(@RequestParam String email, @RequestParam String password, Model model, RedirectAttributes redirectAttributes) {
-        Account acc = accountService.findByEmail(email);
+    public String checkLogin(@RequestParam String username, @RequestParam String password, Model model, RedirectAttributes redirectAttributes) {
+        Account acc = accountService.findByUsername(username);
         // Checks if the password equals to the account which they the email is assigned to
         if(acc != null && acc.getPassword().equals(password)){
-            model.addAttribute("accountID", acc.getId());
-            return "app/tracker";
+            System.out.println("AccountID" + acc.getId());
+            return "redirect:/tracker?accountID=" + acc.getId();
         }
         redirectAttributes.addFlashAttribute("error", "Account does not exist or password is incorrect");
         return "redirect:/login";

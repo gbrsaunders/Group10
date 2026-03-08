@@ -33,39 +33,43 @@ public class AccountService {
     public Account findById(Long id){
         return accountRepo.findById(id).get();
     }
-    public Account findByEmail(String username){
+    public Account findByUsername(String username){
         return accountRepo.findByUsername(username);
     }
     public Cycle calculatePeriod(Account account){
-        Cycle predicted = new Cycle();
+        Cycle predicted = null;
         List<Cycle> cycles = account.getCycles();
-        Long totalLength = 0L;
-        for(int i = 0; i < account.getCycles().size(); i++){
-            if(cycles.get(i) == null && cycles.get(i+1) == null){
-                break;
+        System.out.println(cycles.size());
+        if(!cycles.isEmpty()){
+            predicted = new Cycle();
+            Long totalLength = 0L;
+            for(int i = 0; i < account.getCycles().size(); i++){
+                if(cycles.get(i) == null && cycles.get(i+1) == null){
+                    break;
+                }
+                totalLength = totalLength + ChronoUnit.DAYS.between(cycles.get(i).getStartDate(), cycles.get(i+1).getStartDate());
             }
-            totalLength = totalLength + ChronoUnit.DAYS.between(cycles.get(i).getStartDate(), cycles.get(i+1).getStartDate());
+            long averageCycleLength = totalLength / account.getCycles().size();
+            LocalDate nextCycleStartDate = cycles.getLast().getStartDate().plusDays(averageCycleLength);
+            if (ChronoUnit.DAYS.between(cycles.getLast().getStartDate(), LocalDate.now()) < 6){
+                account.setCurrentPhase("Menstrual");
+            }
+            else if (ChronoUnit.DAYS.between(cycles.getLast().getStartDate(), LocalDate.now()) < 14){
+                account.setCurrentPhase("Follicular");
+            }
+            else if (ChronoUnit.DAYS.between(cycles.getLast().getStartDate(), LocalDate.now()) < 17){
+                account.setCurrentPhase("Ovulation");
+            }
+            else{
+                account.setCurrentPhase("Luteal");
+            }
+            predicted.setLength((int) averageCycleLength);
+            predicted.setStartDate(nextCycleStartDate);
+            predicted.setAccount(account);
+            predicted.setSymptom(cycles.getLast().getSymptom());
+            cycleRepo.save(predicted);
+            accountRepo.save(account);
         }
-        long averageCycleLength = totalLength / account.getCycles().size();
-        LocalDate nextCycleStartDate = cycles.getLast().getStartDate().plusDays(averageCycleLength);
-        if (ChronoUnit.DAYS.between(cycles.getLast().getStartDate(), LocalDate.now()) < 6){
-            account.setCurrentPhase("Menstrual");
-        }
-        else if (ChronoUnit.DAYS.between(cycles.getLast().getStartDate(), LocalDate.now()) < 14){
-            account.setCurrentPhase("Follicular");
-        }
-        else if (ChronoUnit.DAYS.between(cycles.getLast().getStartDate(), LocalDate.now()) < 17){
-            account.setCurrentPhase("Ovulation");
-        }
-        else{
-            account.setCurrentPhase("Luteal");
-        }
-        predicted.setLength((int) averageCycleLength);
-        predicted.setStartDate(nextCycleStartDate);
-        predicted.setAccount(account);
-        predicted.setSymptom(cycles.getLast().getSymptom());
-        cycleRepo.save(predicted);
-        accountRepo.save(account);
         return predicted;
     }
 }

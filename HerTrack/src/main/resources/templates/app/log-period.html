@@ -25,20 +25,20 @@
                 </div>
             </div>
 
-            <form th:action="@{/addCycle}" method="post" th:object="${cycle}"  class="form-card" id="period-form">
+            <form th:action="@{/addCycle(accountID=${accountID})}" method="post" th:object="${cycle}" class="form-card" id="period-form">
                 <div class="form-grid">
                     <div class="form-group">
                         <label class="form-group-label">
                             <i data-lucide="calendar"></i> Start Date
                         </label>
-                        <input type="date" th:field="*{startDate}"  name="startDate" required class="form-input">
+                        <input type="date" th:field="*{startDate}" name="startDate" required class="form-input">
                     </div>
 
                     <div class="form-group">
                         <label class="form-group-label">
                             <i data-lucide="clock"></i> Duration (Days)
                         </label>
-                        <input type="number"  th:field="*{length}" name="duration" min="1" max="14" value="5" required class="form-input">
+                        <input type="number" th:field="*{length}" name="duration" min="1" max="14" value="5" required class="form-input">
                     </div>
                 </div>
 
@@ -47,32 +47,42 @@
                         <i data-lucide="activity"></i> Symptoms
                     </label>
                     <div class="symptoms-grid">
-                        <!-- Symptom toggle buttons — JS marks them selected and populates hidden input -->
-                        <button type="button" class="symptom-btn" data-symptom="Cramps" >Cramps</button>
-                        <button type="button" class="symptom-btn" data-symptom="Headache">Headache</button>
-                        <button type="button" class="symptom-btn" data-symptom="Bloating">Bloating</button>
-                        <button type="button" class="symptom-btn" data-symptom="Fatigue">Fatigue</button>
-                        <button type="button" class="symptom-btn" data-symptom="Mood swings">Mood swings</button>
-                        <button type="button" class="symptom-btn" data-symptom="Cravings">Cravings</button>
-                        <button type="button" class="symptom-btn" data-symptom="Backache">Backache</button>
-                        <button type="button" class="symptom-btn" data-symptom="Acne">Acne</button>
+                        <!-- Visible toggle buttons — JS syncs state to hidden checkboxes below -->
+                        <button type="button" class="symptom-btn" data-symptom="cramps">Cramps</button>
+                        <button type="button" class="symptom-btn" data-symptom="headache">Headache</button>
+                        <button type="button" class="symptom-btn" data-symptom="bloating">Bloating</button>
+                        <button type="button" class="symptom-btn" data-symptom="fatigue">Fatigue</button>
+                        <button type="button" class="symptom-btn" data-symptom="moodSwings">Mood swings</button>
+                        <button type="button" class="symptom-btn" data-symptom="hunger">Cravings</button>
+                        <button type="button" class="symptom-btn" data-symptom="hotFlashes">Backache</button>
+                        <button type="button" class="symptom-btn" data-symptom="acne">Acne</button>
                     </div>
-                    <!-- Hidden input populated by JS before submit -->
-                    <input type="hidden" name="symptoms" id="symptoms-hidden">
+
+                    <!--
+                        Hidden checkboxes — named to match Symptom model fields.
+                        Spring MVC binds these via "symptom.fieldName" on the Cycle object.
+                        JS toggles their checked state when the user clicks a symptom button.
+                    -->
+                    <input type="checkbox" id="sym-cramps"    th:field="*{symptom.cramps}"  name="symptom.cramps"     style="display:none">
+                    <input type="checkbox" id="sym-headache"  th:field="*{symptom.headache}"  name="symptom.headache"   style="display:none">
+                    <input type="checkbox" id="sym-bloating"  th:field="*{symptom.nausea}" name="symptom.nausea"     style="display:none">
+                    <input type="checkbox" id="sym-fatigue"   th:field="*{symptom.fatigue}"   name="symptom.fatigue"    style="display:none">
+                    <input type="checkbox" id="sym-moodSwings"  th:field="*{symptom.moodSwings}" name="symptom.moodSwings" style="display:none">
+                    <input type="checkbox" id="sym-hunger"      th:field="*{symptom.hunger}" name="symptom.hunger"     style="display:none">
+                    <input type="checkbox" id="sym-hotFlashes"  th:field="*{symptom.hotFlashes}" name="symptom.hotFlashes" style="display:none">
+                    <input type="checkbox" id="sym-acne"        th:field="*{symptom.acne}" name="symptom.acne"       style="display:none">
                 </div>
 
                 <div class="form-group">
                     <label class="form-group-label">
                         <i data-lucide="file-text"></i> Additional Details
                     </label>
-                    <textarea name="notes"    rows="4" class="form-textarea"
+                    <textarea th:field="*{notes}" rows="4" class="form-textarea"
                               placeholder="Add any extra notes about flow, mood, or medication..."></textarea>
                 </div>
 
                 <!-- CSRF token for Spring Security
-
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
                 -->
 
                 <div class="form-footer">

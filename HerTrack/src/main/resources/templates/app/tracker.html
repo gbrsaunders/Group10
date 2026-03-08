@@ -44,8 +44,7 @@
                     </div>
                     <div class="prediction-footer">
                         Predicted duration:
-                        <span th:text="${prediction != null} ? ${prediction.expectedLength} + ' days' : '5 days'"
-                              id="prediction-length">5 days</span>
+                        <span th:text="${prediction != null} ? ${prediction.expectedLength} + ' days'" id="prediction-length"></span>
                     </div>
                 </div>
 
@@ -56,8 +55,7 @@
                             <i data-lucide="activity"></i>
                             Cycle History
                         </h2>
-                        <a th:href="@{/logPeriod}" class="btn-secondary">Log New Period</a>
-                    </div>
+                        <a th:href="@{/logPeriod(accountID=${accountID})}" class="btn-secondary">Log New Period</a>                    </div>
 
                     <div class="period-list">
                         <!-- Empty state -->
@@ -66,7 +64,7 @@
                         </div>
 
                         <!-- Period entries -->
-                        <div th:each="cycle : ${cycles}" class="period-card">
+                        <div th:if="${cycles != null and !cycles.isEmpty()}"  th:each="cycle : ${cycles}" class="period-card">
                             <div class="period-date">
                                 <div class="period-label">Start Date</div>
                                 <div class="period-value" th:text="${#temporals.format(cycle.startDate, 'MMM d, yyyy')}">
@@ -74,21 +72,21 @@
                                 </div>
                             </div>
 
-                            <div class="period-duration">
+                            <div th:if="${cycles != null and !cycles.isEmpty()}"  class="period-duration">
                                 <div class="period-label">Duration</div>
                                 <div class="period-duration-badge">
                                     <span th:text="${cycle.length}">5</span> days
                                 </div>
                             </div>
 
-                            <div class="period-symptoms">
+                            <div th:if="${cycles != null and !cycles.isEmpty()}"  class="period-symptoms">
                                 <div class="period-label">
                                     <i data-lucide="alert-circle"></i> Symptoms
                                 </div>
                                 <div class="symptoms-list">
-                                    <span th:if="${#lists.isEmpty(period.symptoms)}"
+                                    <span th:if="${#lists.isEmpty(cycle.symptom)}"
                                           style="font-size:0.75rem;color:#94a3b8;font-style:italic;">None logged</span>
-                                    <span th:each="sym : ${cycle.symptoms}"
+                                    <span th:each="sym : ${cycle.symptom}"
                                           class="symptom-tag" th:text="${sym}">Cramps</span>
                                 </div>
                                 <p th:if="${cycle.notes != null and !cycle.notes.isEmpty()}"
