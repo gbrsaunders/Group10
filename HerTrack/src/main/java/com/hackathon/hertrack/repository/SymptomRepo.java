@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface SymptomRepo extends JpaRepository<Symptom, Long> {
     Symptom findById(long id);
+
 }

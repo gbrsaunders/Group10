@@ -32,7 +32,7 @@
                         <div>
                             <!-- th:text pulls server-computed prediction; JS fallback fills it if null -->
                             <span class="prediction-days"
-                                  th:text="${prediction != null} ? ${prediction.daysUntil} : '-'"
+                                  th:text="${prediction != null} ? ${predictionDays} : '-'"
                                   id="prediction-days">-</span>
                             <span class="prediction-days-label">days</span>
                             <p class="prediction-date">
@@ -56,20 +56,20 @@
                             <i data-lucide="activity"></i>
                             Cycle History
                         </h2>
-                        <a th:href="@{/app/log-period}" class="btn-secondary">Log New Period</a>
+                        <a th:href="@{/logPeriod}" class="btn-secondary">Log New Period</a>
                     </div>
 
                     <div class="period-list">
                         <!-- Empty state -->
-                        <div th:if="${#lists.isEmpty(periods)}" class="empty-state">
+                        <div th:if="${#lists.isEmpty(cycles)}" class="empty-state">
                             No past cycles recorded. Log your first period to get started!
                         </div>
 
                         <!-- Period entries -->
-                        <div th:each="period : ${periods}" class="period-card">
+                        <div th:each="cycle : ${cycles}" class="period-card">
                             <div class="period-date">
                                 <div class="period-label">Start Date</div>
-                                <div class="period-value" th:text="${#temporals.format(period.startDate, 'MMM d, yyyy')}">
+                                <div class="period-value" th:text="${#temporals.format(cycle.startDate, 'MMM d, yyyy')}">
                                     Jan 1, 2025
                                 </div>
                             </div>
@@ -77,7 +77,7 @@
                             <div class="period-duration">
                                 <div class="period-label">Duration</div>
                                 <div class="period-duration-badge">
-                                    <span th:text="${period.length}">5</span> days
+                                    <span th:text="${cycle.length}">5</span> days
                                 </div>
                             </div>
 
@@ -88,12 +88,12 @@
                                 <div class="symptoms-list">
                                     <span th:if="${#lists.isEmpty(period.symptoms)}"
                                           style="font-size:0.75rem;color:#94a3b8;font-style:italic;">None logged</span>
-                                    <span th:each="sym : ${period.symptoms}"
+                                    <span th:each="sym : ${cycle.symptoms}"
                                           class="symptom-tag" th:text="${sym}">Cramps</span>
                                 </div>
-                                <p th:if="${period.notes != null and !period.notes.isEmpty()}"
+                                <p th:if="${cycle.notes != null and !cycle.notes.isEmpty()}"
                                    style="font-size:0.75rem;color:#64748b;margin-top:0.5rem;font-style:italic;background:#f8fafc;padding:0.5rem;border-radius:0.5rem;border:1px solid #f1f5f9;"
-                                   th:text="${'&quot;' + period.notes + '&quot;'}"></p>
+                                   th:text="${'&quot;' + cycle.notes + '&quot;'}"></p>
                             </div>
                         </div>
                     </div>

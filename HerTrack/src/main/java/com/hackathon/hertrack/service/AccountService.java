@@ -30,11 +30,14 @@ public class AccountService {
     public Account getDetails(Long id){
         return accountRepo.findById(id).get();
     }
+    public Account findById(Long id){
+        return accountRepo.findById(id).get();
+    }
     public Account findByEmail(String username){
         return accountRepo.findByUsername(username);
     }
-    public void calculateCycles(Account account){
-        List<String> response = List.of();
+    public Cycle calculatePeriod(Account account){
+        Cycle predicted = new Cycle();
         List<Cycle> cycles = account.getCycles();
         Long totalLength = 0L;
         for(int i = 0; i < account.getCycles().size(); i++){
@@ -57,5 +60,12 @@ public class AccountService {
         else{
             account.setCurrentPhase("Luteal");
         }
+        predicted.setLength((int) averageCycleLength);
+        predicted.setStartDate(nextCycleStartDate);
+        predicted.setAccount(account);
+        predicted.setSymptom(cycles.getLast().getSymptom());
+        cycleRepo.save(predicted);
+        accountRepo.save(account);
+        return predicted;
     }
 }

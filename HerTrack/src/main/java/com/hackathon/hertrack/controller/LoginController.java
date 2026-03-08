@@ -59,7 +59,8 @@ public class LoginController {
         Account acc = accountService.findByEmail(email);
         // Checks if the password equals to the account which they the email is assigned to
         if(acc != null && acc.getPassword().equals(password)){
-            return "app/dashboard";
+            model.addAttribute("accountID", acc.getId());
+            return "app/tracker";
         }
         redirectAttributes.addFlashAttribute("error", "Account does not exist or password is incorrect");
         return "redirect:/login";

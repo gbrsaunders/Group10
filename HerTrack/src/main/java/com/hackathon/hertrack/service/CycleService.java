@@ -7,12 +7,14 @@ import com.hackathon.hertrack.repository.CycleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CycleService {
     @Autowired
     private CycleRepo cycleRepo;
+
     public void saveDetails(Cycle cycle){
         cycleRepo.save(cycle);
     }
@@ -24,5 +26,8 @@ public class CycleService {
     }
     public Optional<Cycle> findById(Long id){
         return cycleRepo.findById(id);
+    }
+    public List<Cycle> findAll(){
+        return cycleRepo.findAll();
     }
 }

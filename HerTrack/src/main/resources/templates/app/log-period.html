@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <form th:action="@{/ap}" method="post" th:object="${cycle}"  class="form-card" id="period-form">
+            <form th:action="@{/addCycle}" method="post" th:object="${cycle}"  class="form-card" id="period-form">
                 <div class="form-grid">
                     <div class="form-group">
                         <label class="form-group-label">
@@ -65,12 +65,15 @@
                     <label class="form-group-label">
                         <i data-lucide="file-text"></i> Additional Details
                     </label>
-                    <textarea name="notes" th:field="*{getSymptom().getOther()}"   rows="4" class="form-textarea"
+                    <textarea name="notes"    rows="4" class="form-textarea"
                               placeholder="Add any extra notes about flow, mood, or medication..."></textarea>
                 </div>
 
-                <!-- CSRF token for Spring Security -->
+                <!-- CSRF token for Spring Security
+
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                -->
 
                 <div class="form-footer">
                     <button type="submit" class="btn-save">

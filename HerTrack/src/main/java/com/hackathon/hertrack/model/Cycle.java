@@ -16,6 +16,7 @@ public class Cycle {
     private Integer length;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Symptom symptom;
+    private String notes;
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
