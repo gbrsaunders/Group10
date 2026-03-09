@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - HerTrack</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="page active">
+    <!-- Shared Navigation -->
+    <div th:replace="~{fragments/nav :: app-nav}" th:with="activePage='dashboard'"></div>
+
+    <main class="app-main">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">
+                Welcome to <span class="text-gradient">HerTrack</span>
+            </h1>
+            <p class="dashboard-description">
+                Your personal dashboard. Select a module below to get started on your health and wellness journey.
+            </p>
+        </div>
+
+        <div class="dashboard-grid">
+            <a th:href="@{/tracker(accountID=${accountID})}"  class="dashboard-card"
+               style="background: linear-gradient(to bottom right, #fff1f2, #fce7f3); border-color: #fecdd3;">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="calendar-days" style="color: #f43f5e;"></i>
+                </div>
+                <h2>Menstrual Cycle Tracker</h2>
+                <p>Log dates, monitor symptoms, and view predictions.</p>
+                <div class="card-footer">Open module &rarr;</div>
+            </a>
+
+            <a th:href="@{/app/chat}" class="dashboard-card"
+               style="background: linear-gradient(to bottom right, #fdf4ff, #f3e8ff); border-color: #e9d5ff;">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="message-square-heart" style="color: #c026d3;"></i>
+                </div>
+                <h2>Chat</h2>
+                <p>Connect anonymously with peers or talk to our AI assistant.</p>
+                <div class="card-footer">Open module &rarr;</div>
+            </a>
+
+            <a th:href="@{/app/forum}" class="dashboard-card"
+               style="background: linear-gradient(to bottom right, #fffbeb, #ffedd5); border-color: #fde68a;">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="users" style="color: #f59e0b;"></i>
+                </div>
+                <h2>Community Forum</h2>
+                <p>Discuss, share, and connect with peers in a reddit-style feed.</p>
+                <div class="card-footer">Open module &rarr;</div>
+            </a>
+
+            <a th:href="@{/app/university-resources}" class="dashboard-card"
+               style="background: linear-gradient(to bottom right, #eef2ff, #dbeafe); border-color: #c7d2fe;">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="graduation-cap" style="color: #6366f1;"></i>
+                </div>
+                <h2>University Resources</h2>
+                <p>Access support services and bathroom product logs.</p>
+                <div class="card-footer">Open module &rarr;</div>
+            </a>
+
+            <a th:href="@{/resources(accountID=${accountID})}" class="dashboard-card"
+               style="background: linear-gradient(to bottom right, #ecfdf5, #ccfbf1); border-color: #a7f3d0;">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="sparkles" style="color: #10b981;"></i>
+                </div>
+                <h2>Extra Resources</h2>
+                <p>Discover curated articles, hotlines, and guides.</p>
+                <div class="card-footer">Open module &rarr;</div>
+            </a>
+
+            <a th:href="@{/app/admin}" class="dashboard-card"
+               style="background: linear-gradient(to bottom right, #f1f5f9, #e2e8f0); border-color: #cbd5e1;">
+                <div class="card-icon-wrapper">
+                    <i data-lucide="shield" style="color: #64748b;"></i>
+                </div>
+                <h2>Admin Panel</h2>
+                <p>Manage users, monitor platform health and application settings.</p>
+                <div class="card-footer">Open module &rarr;</div>
+            </a>
+        </div>
+    </main>
+</div>
+
+<div id="toast-container"></div>
+
+<script th:src="@{/js/shared.js}"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

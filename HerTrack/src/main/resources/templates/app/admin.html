@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - HerTrack</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="page active">
+    <!-- Shared Navigation -->
+    <div th:replace="~{fragments/nav :: app-nav}" th:with="activePage='admin'"></div>
+
+    <main class="app-main">
+        <div class="admin-container">
+            <div class="admin-header">
+                <div class="admin-title-section">
+                    <h1>
+                        <i data-lucide="shield"></i>
+                        Admin Dashboard
+                    </h1>
+                    <p class="page-subtitle">Manage platform users, roles, and settings.</p>
+                </div>
+                <div class="admin-actions">
+                    <div class="admin-search">
+                        <i data-lucide="search"></i>
+                        <input type="text" id="user-search" placeholder="Search users...">
+                    </div>
+                    <button class="btn-add-user">
+                        <i data-lucide="users"></i> Add User
+                    </button>
+                </div>
+            </div>
+
+            <div class="users-table-container">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Date of Birth</th>
+                            <th>Join Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-table-body">
+                        <tr th:each="user : ${users}">
+                            <td><span class="user-id" th:text="${user.id}">USR-001</span></td>
+                            <td><span class="user-name" th:text="${user.username}">username</span></td>
+                            <td><span class="user-email" th:text="${user.email}">email@example.com</span></td>
+                            <td>
+                                <span class="role-badge"
+                                      th:classappend="${#strings.toLowerCase(user.role)}"
+                                      th:text="${user.role}">User</span>
+                            </td>
+                            <td><span class="user-email" th:text="${user.dob}">1999-01-01</span></td>
+                            <td><span class="user-email" th:text="${user.joinDate}">2025-01-01</span></td>
+                            <td style="text-align:right;">
+                                <button class="btn-more">
+                                    <i data-lucide="more-horizontal"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                        <!-- Fallback if no users in model -->
+                        <tr th:if="${#lists.isEmpty(users)}">
+                            <td colspan="7" style="text-align:center;padding:2rem;color:#64748b;">
+                                No users found.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="toast-container"></div>
+
+<script th:src="@{/js/shared.js}"></script>
+<script th:src="@{/js/admin.js}"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

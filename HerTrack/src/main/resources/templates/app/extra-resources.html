@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extra Resources - HerTrack</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="page active">
+    <!-- Shared Navigation -->
+    <div th:replace="~{fragments/nav :: app-nav}" th:with="activePage='extra-resources'"></div>
+
+    <main class="app-main">
+        <div class="extra-resources-container">
+            <div class="extra-resources-header">
+                <div class="extra-resources-icon">
+                    <i data-lucide="heart" style="fill:rgba(225,29,72,0.2);"></i>
+                </div>
+                <h1>Extra Resources</h1>
+                <p style="font-size:1.125rem;color:#64748b;">
+                    Explore a curated library of articles, videos, and global organizations dedicated to supporting
+                    menstrual and reproductive health.
+                </p>
+            </div>
+
+            <div class="extra-resources-grid">
+                <!-- Educational Articles -->
+                <div class="resource-category-card" style="background:#ecfdf5;">
+                    <div class="category-header">
+                        <div class="category-icon-wrapper">
+                            <i data-lucide="book-marked" style="width:1.5rem;height:1.5rem;color:#10b981;"></i>
+                        </div>
+                        <h2>Educational Articles</h2>
+                    </div>
+                    <div class="resource-items">
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">Understanding Your Cycle Phases</div>
+                                <p class="resource-item-meta">5 min read</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">Managing Endometriosis Symptoms</div>
+                                <p class="resource-item-meta">8 min read</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">Nutrition Guide for Hormonal Balance</div>
+                                <p class="resource-item-meta">6 min read</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                    </div>
+                    <button class="btn-view-all">View All Educational Articles</button>
+                </div>
+
+                <!-- Wellness Videos -->
+                <div class="resource-category-card" style="background:#faf5ff;">
+                    <div class="category-header">
+                        <div class="category-icon-wrapper">
+                            <i data-lucide="video" style="width:1.5rem;height:1.5rem;color:#a855f7;"></i>
+                        </div>
+                        <h2>Wellness Videos</h2>
+                    </div>
+                    <div class="resource-items">
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">Gentle Yoga for Period Cramps</div>
+                                <p class="resource-item-meta">15 min video</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">Meditation for Hormone Regulation</div>
+                                <p class="resource-item-meta">10 min video</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">Expert Q&amp;A: PCOS Insights</div>
+                                <p class="resource-item-meta">30 min video</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                    </div>
+                    <button class="btn-view-all">View All Wellness Videos</button>
+                </div>
+
+                <!-- Global Organizations -->
+                <div class="resource-category-card" style="background:#eff6ff;">
+                    <div class="category-header">
+                        <div class="category-icon-wrapper">
+                            <i data-lucide="globe" style="width:1.5rem;height:1.5rem;color:#3b82f6;"></i>
+                        </div>
+                        <h2>Global Organizations</h2>
+                    </div>
+                    <div class="resource-items">
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">International Women's Health Coalition</div>
+                                <p class="resource-item-meta">External Link</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">Endometriosis Foundation of America</div>
+                                <p class="resource-item-meta">External Link</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                        <div class="resource-item">
+                            <div>
+                                <div class="resource-item-title">Global Fund for Women</div>
+                                <p class="resource-item-meta">External Link</p>
+                            </div>
+                            <i data-lucide="arrow-right" class="resource-item-arrow"></i>
+                        </div>
+                    </div>
+                    <button class="btn-view-all">View All Global Organizations</button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="toast-container"></div>
+
+<script th:src="@{/js/shared.js}"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>

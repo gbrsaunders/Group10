@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker - HerTrack</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+<div class="page active">
+    <!-- Shared Navigation -->
+    <div th:replace="~{fragments/nav :: app-nav}" th:with="activePage='tracker'"></div>
+
+    <main class="app-main">
+        <div class="tracker-container">
+            <div class="page-header">
+                <h1 class="page-title">Menstrual Cycle Tracker</h1>
+                <p class="page-subtitle">Log your dates, symptoms, and view your cycle predictions.</p>
+            </div>
+
+            <div class="tracker-grid">
+                <!-- Prediction Card — populated from model or computed client-side -->
+                <div class="prediction-card">
+                    <i data-lucide="sparkles" class="prediction-bg-icon"></i>
+                    <div class="prediction-content">
+                        <h2 class="prediction-header">
+                            <i data-lucide="calendar"></i>
+                            Next Period
+                        </h2>
+                        <div>
+                            <!-- th:text pulls server-computed prediction; JS fallback fills it if null -->
+                            <span class="prediction-days"
+                                  th:text="${prediction != null} ? ${predictionDays} : '-'"
+                                  id="prediction-days">-</span>
+                            <span class="prediction-days-label">days</span>
+                            <p class="prediction-date">
+                                Expected to start
+                                <span th:text="${prediction != null} ? ${prediction.startDate} : 'Log a period first'"
+                                      id="prediction-date">Log a period first</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="prediction-footer">
+                        Predicted duration:
+                        <span th:text="${prediction != null} ? ${prediction.length} + ' days'" id="prediction-length"></span>
+                    </div>
+                </div>
+
+                <!-- Cycle History -->
+                <div class="history-section">
+                    <div class="history-header">
+                        <h2 class="section-title">
+                            <i data-lucide="activity"></i>
+                            Cycle History
+                        </h2>
+                        <a th:href="@{/logPeriod(accountID=${accountID})}" class="btn-secondary">Log New Period</a>                    </div>
+
+                    <div class="period-list">
+                        <!-- Empty state -->
+                        <div th:if="${#lists.isEmpty(cycles)}" class="empty-state">
+                            No past cycles recorded. Log your first period to get started!
+                        </div>
+
+                        <!-- Period entries -->
+                        <div th:if="${cycles != null and !cycles.isEmpty()}"  th:each="cycle : ${cycles}" class="period-card">
+                            <div class="period-date">
+                                <div class="period-label">Start Date</div>
+                                <div class="period-value" th:text="${#temporals.format(cycle.startDate, 'MMM d, yyyy')}">
+                                    Jan 1, 2025
+                                </div>
+                            </div>
+
+                            <div th:if="${cycles != null and !cycles.isEmpty()}"  class="period-duration">
+                                <div class="period-label">Duration</div>
+                                <div class="period-duration-badge">
+                                    <span th:text="${cycle.length}">5</span> days
+                                </div>
+                            </div>
+
+                            <div th:if="${cycles != null and !cycles.isEmpty()}"  class="period-symptoms">
+                                <div class="period-label">
+                                    <i data-lucide="alert-circle"></i> Symptoms
+                                </div>
+                                <div class="symptoms-list">
+                                    <span th:if="${#lists.isEmpty(cycle.symptom)}"
+                                          style="font-size:0.75rem;color:#94a3b8;font-style:italic;">None logged</span>
+                                    <span th:each="sym : ${cycle.symptom}"
+                                          class="symptom-tag" th:text="${sym}">Cramps</span>
+                                </div>
+                                <p th:if="${cycle.notes != null and !cycle.notes.isEmpty()}"
+                                   style="font-size:0.75rem;color:#64748b;margin-top:0.5rem;font-style:italic;background:#f8fafc;padding:0.5rem;border-radius:0.5rem;border:1px solid #f1f5f9;"
+                                   th:text="${'&quot;' + cycle.notes + '&quot;'}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="toast-container"></div>
+
+<script th:src="@{/js/shared.js}"></script>
+<script th:src="@{/js/tracker.js}"></script>
+<script>lucide.createIcons();</script>
+</body>
+</html>
