@@ -1,4 +1,4 @@
-package com.hackathon.hertrack.repo;
+package com.hackathon.hertrack.repository;
 
 import com.hackathon.hertrack.model.ChatMessage;
 import org.springframework.data.jpa.repository.JpaRepository;

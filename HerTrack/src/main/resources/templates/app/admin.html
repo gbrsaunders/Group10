@@ -28,9 +28,13 @@
                         <i data-lucide="search"></i>
                         <input type="text" id="user-search" placeholder="Search users...">
                     </div>
-                    <button class="btn-add-user">
+                    <!----
+                      <button class="btn-add-user">
                         <i data-lucide="users"></i> Add User
                     </button>
+
+                    ---->
+
                 </div>
             </div>
 
@@ -43,22 +47,23 @@
                             <th>Email</th>
                             <th>Role</th>
                             <th>Date of Birth</th>
-                            <th>Join Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="users-table-body">
-                        <tr th:each="user : ${users}">
-                            <td><span class="user-id" th:text="${user.id}">USR-001</span></td>
-                            <td><span class="user-name" th:text="${user.username}">username</span></td>
-                            <td><span class="user-email" th:text="${user.email}">email@example.com</span></td>
+                        <tr th:each="account : ${accounts}">
+                            <td><span class="user-id" th:text="${account.id}">USR-001</span></td>
+                            <td><span class="user-name" th:text="${account.username}">username</span></td>
+                            <td><span class="user-email" th:text="${account.email}">email@example.com</span></td>
                             <td>
                                 <span class="role-badge"
-                                      th:classappend="${#strings.toLowerCase(user.role)}"
-                                      th:text="${user.role}">User</span>
+                                      th:classappend="${#strings.toLowerCase(account.role)}"
+                                      th:text="${account.role}">User</span>
                             </td>
-                            <td><span class="user-email" th:text="${user.dob}">1999-01-01</span></td>
-                            <td><span class="user-email" th:text="${user.joinDate}">2025-01-01</span></td>
+                            <td><span class="user-email" th:text="${account.dateOfBirth}">1999-01-01</span></td>
+                            <!---
+                             <td><span class="user-email" th:text="${user.}">2025-01-01</span></td>
+                            --->
                             <td style="text-align:right;">
                                 <button class="btn-more">
                                     <i data-lucide="more-horizontal"></i>
@@ -67,7 +72,7 @@
                         </tr>
 
                         <!-- Fallback if no users in model -->
-                        <tr th:if="${#lists.isEmpty(users)}">
+                        <tr th:if="${#lists.isEmpty(accounts)}">
                             <td colspan="7" style="text-align:center;padding:2rem;color:#64748b;">
                                 No users found.
                             </td>

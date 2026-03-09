@@ -26,6 +26,9 @@ public class AccountService {
     public void saveDetails(Account account){
         accountRepo.save(account);
     }
+    public List<Account> findAll(){
+        return accountRepo.findAll();
+    }
     public void deleteDetails(Account account){
         accountRepo.delete(account);
     }

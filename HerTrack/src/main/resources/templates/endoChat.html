@@ -10,24 +10,7 @@
 <body>
 
 <!-- App Header -->
-<header class="app-header">
-    <div class="app-header-content">
-        <div class="app-logo">
-            <i data-lucide="heart" class="app-logo-icon"></i>
-            <span class="app-logo-text">HerTrack</span>
-        </div>
-        <nav class="app-nav">
-            <a href="/dashboard" class="nav-link">
-                <i data-lucide="layout-dashboard"></i>
-                <span>Dashboard</span>
-            </a>
-            <a href="/chat/endometriosis" class="nav-link active">
-                <i data-lucide="message-circle"></i>
-                <span>Chat</span>
-            </a>
-        </nav>
-    </div>
-</header>
+<div th:replace="~{fragments/nav :: app-nav}" th:with="activePage='dashboard'"></div>
 
 <!-- Chat Layout -->
 <main class="app-main">

@@ -132,7 +132,7 @@
 
                 <div class="bathroom-list" id="bathroom-list">
                     <div th:each="bathroom : ${bathrooms}" class="bathroom-card"
-                         th:attr="data-name=${bathroom.name},data-building=${bathroom.building}">
+                         th:attr="data-name=${bathroom.name},data-building=${bathroom.location}">
                         <div class="bathroom-info">
                             <h3 th:text="${bathroom.name}">Bathroom Name</h3>
                             <span class="bathroom-status"
@@ -144,8 +144,11 @@
                         <form th:if="${bathroom.status == 'Stocked'}"
                               th:action="@{/app/university-resources/report}" method="post" style="margin:0;">
                             <input type="hidden" name="bathroomId" th:value="${bathroom.id}">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                            <button type="submit" class="btn-report">Report Empty</button>
+                         <!-----
+                               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />7
+                                <button type="submit" class="btn-report">Report Empty</button>
+
+                         --->
                         </form>
                         <div th:if="${bathroom.status != 'Stocked'}" class="restock-pending">
                             Restock Pending

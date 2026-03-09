@@ -1,7 +1,7 @@
 package com.hackathon.hertrack.controller;
 
 import com.hackathon.hertrack.model.ChatMessage;
-import com.hackathon.hertrack.repo.ChatRepository;
+import com.hackathon.hertrack.repository.ChatRepository;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -25,6 +25,7 @@ public class ChatController {
     @SendTo("/topic/messages/general")
     public ChatMessage sendMessageGeneral(@Payload ChatMessage message) {
         message.setRoom("general");
+        System.out.println("Message is recieved" + message);
         return chatRepository.save(message);
     }
 
@@ -56,21 +57,25 @@ public class ChatController {
             case "beauty" -> {
                 List<ChatMessage> allBeautyWellChats = chatRepository.findTop10ByRoomOrderByLocaldatetimeAsc("beauty");
                 model.addAttribute("allChats", allBeautyWellChats);
+                //model.addAttribute("accountID", accountID);
                 return "beautyChat";
             }
             case "relationships" -> {
                 List<ChatMessage> allRelationshipChats = chatRepository.findTop10ByRoomOrderByLocaldatetimeAsc("relationships");
                 model.addAttribute("allChats", allRelationshipChats);
+                //model.addAttribute("accountID", accountID);
                 return "relationshipsChat";
             }
             case "endometriosis" -> {
                 List<ChatMessage> allEndoChats = chatRepository.findTop10ByRoomOrderByLocaldatetimeAsc("endometriosis");
                 model.addAttribute("allChats", allEndoChats);
+                //model.addAttribute("accountID", accountID);
                 return "endoChat";
             }
             default -> {
                 List<ChatMessage> allGeneralChats = chatRepository.findTop10ByRoomOrderByLocaldatetimeAsc("general");
                 model.addAttribute("allChats", allGeneralChats);
+                //model.addAttribute("accountID", accountID);
                 return "GeneralChat";
             }
         }
