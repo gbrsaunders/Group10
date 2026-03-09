@@ -78,7 +78,7 @@ public class LoginController {
         return "signup";
     }
     // Signing out will lead you to to the login page
-    @RequestMapping("/signout")
+    @RequestMapping("/logout")
     public String signOut(Model model) {
         return "redirect:/login";
     }

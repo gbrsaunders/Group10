@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -40,6 +41,7 @@ public class AccountService {
     public Cycle calculatePeriod(Account account){
         Cycle predicted = null;
         List<Cycle> allCycles = account.getCycles();
+        allCycles.sort(Comparator.comparing(Cycle::getStartDate));
         List<Cycle> cycles = allCycles.stream().skip(Math.max(0, allCycles.size() - 6)).toList();
         if (cycles.size() >= 2) {
             predicted = new Cycle();
@@ -52,7 +54,11 @@ public class AccountService {
             long averageCycleLength = totalLength / (cycles.size() - 1);
             LocalDate lastStart = cycles.getLast().getStartDate();
             LocalDate nextCycleStartDate = lastStart.plusDays(averageCycleLength);
-            long daysSinceLast = ChronoUnit.DAYS.between(lastStart, LocalDate.now());
+            while(nextCycleStartDate.isBefore(LocalDate.now())){
+                nextCycleStartDate = nextCycleStartDate.plusDays(averageCycleLength);
+            }
+            predicted.setLength((int) ChronoUnit.DAYS.between(lastStart, nextCycleStartDate));
+            long daysSinceLast = ChronoUnit.DAYS.between(lastStart, LocalDate.now()) % predicted.getLength();
             if (daysSinceLast < 6) {
                 account.setCurrentPhase("Menstrual");
             } else if (daysSinceLast < 14) {
@@ -62,14 +68,10 @@ public class AccountService {
             } else {
                 account.setCurrentPhase("Luteal");
             }
-            predicted.setLength((int) averageCycleLength);
             predicted.setStartDate(nextCycleStartDate);
-            predicted.setAccount(account);
             Symptom predictedSymptom = new Symptom();
             predictedSymptom.CopySymptoms(cycles.getLast().getSymptom());
             predicted.setSymptom(predictedSymptom);
-            cycleRepo.save(predicted);
-            accountRepo.save(account);
         }
         return predicted;
     }

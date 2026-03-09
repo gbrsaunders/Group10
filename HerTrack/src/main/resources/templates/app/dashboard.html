@@ -24,7 +24,7 @@
         </div>
 
         <div class="dashboard-grid">
-            <a th:href="@{/app/tracker}" class="dashboard-card"
+            <a th:href="@{/tracker(accountID=${accountID})}"  class="dashboard-card"
                style="background: linear-gradient(to bottom right, #fff1f2, #fce7f3); border-color: #fecdd3;">
                 <div class="card-icon-wrapper">
                     <i data-lucide="calendar-days" style="color: #f43f5e;"></i>
@@ -64,7 +64,7 @@
                 <div class="card-footer">Open module &rarr;</div>
             </a>
 
-            <a th:href="@{/app/extra-resources}" class="dashboard-card"
+            <a th:href="@{/resources(accountID=${accountID})}" class="dashboard-card"
                style="background: linear-gradient(to bottom right, #ecfdf5, #ccfbf1); border-color: #a7f3d0;">
                 <div class="card-icon-wrapper">
                     <i data-lucide="sparkles" style="color: #10b981;"></i>

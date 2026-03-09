@@ -36,6 +36,10 @@ public class GeneralController {
         model.addAttribute("accountID", accountID);
         return "app/dashboard";
     }
+    @RequestMapping("/chat")
+    private String chat(){
+        return "app/chat";
+    }
 
     @RequestMapping("/logPeriod")
     private String periodTracker(@RequestParam long accountID, Model model) {
@@ -76,15 +80,11 @@ public class GeneralController {
         List<Cycle> cycles = accountService.findById(accountID).getCycles();
         model.addAttribute("prediction", accountService.calculatePeriod(accountService.getAccountRepo().findById(accountID)));
         if (prediction != null){
-            model.addAttribute("predictionDays", ChronoUnit.DAYS.between(prediction.getStartDate(), LocalDate.now()));
+            model.addAttribute("predictionDays", ChronoUnit.DAYS.between(LocalDate.now(), prediction.getStartDate()));
         }
         model.addAttribute("cycles", cycles );
         model.addAttribute("accountID", accountID);
         System.out.println("AccountID At Tracker " + accountID);
         return "app/tracker";
-    }
-    @RequestMapping("/chat")
-    private String chat(){
-        return "chat";
     }
 }
