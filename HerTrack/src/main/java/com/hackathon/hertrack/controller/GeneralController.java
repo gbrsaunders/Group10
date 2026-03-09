@@ -55,14 +55,17 @@ public class GeneralController {
         if (cycle.getSymptom() == null){
             cycle.setSymptom(new Symptom());
         }
-        symptomService.checkSymptom(cycle.getSymptom());
         Account acc = accountService.findById(accountID);
-        List<Cycle> cycles = acc.getCycles();
-        cycles.add(cycle);
-        acc.setCycles(cycles);
-        cycleService.saveDetails(cycle);
-        accountService.saveDetails(acc);
-        System.out.println("Saved at Account ID: " + acc.getId() + " and Cycle " + cycle.getId());
+        if(cycle.getStartDate().isBefore(LocalDate.now())){
+            symptomService.checkSymptom(cycle.getSymptom());
+            List<Cycle> cycles = acc.getCycles();
+            cycle.setAccount(acc);
+            cycles.add(cycle);
+            acc.setCycles(cycles);
+            cycleService.saveDetails(cycle);
+            accountService.saveDetails(acc);
+            System.out.println("Saved at Account ID: " + acc.getId() + " and Cycle " + cycle.getId());
+        }
         return "redirect:/tracker?accountID=" + acc.getId();
 
     }
@@ -70,11 +73,12 @@ public class GeneralController {
     @RequestMapping("/tracker")
     private String tracker(@RequestParam long accountID,  Model model) {
         Cycle prediction = accountService.calculatePeriod(accountService.findById(accountID));
+        List<Cycle> cycles = accountService.findById(accountID).getCycles();
         model.addAttribute("prediction", accountService.calculatePeriod(accountService.getAccountRepo().findById(accountID)));
         if (prediction != null){
             model.addAttribute("predictionDays", ChronoUnit.DAYS.between(prediction.getStartDate(), LocalDate.now()));
         }
-        model.addAttribute("cycles", cycleService.findAll());
+        model.addAttribute("cycles", cycles );
         model.addAttribute("accountID", accountID);
         System.out.println("AccountID At Tracker " + accountID);
         return "app/tracker";

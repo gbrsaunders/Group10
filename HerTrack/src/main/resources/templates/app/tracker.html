@@ -37,14 +37,14 @@
                             <span class="prediction-days-label">days</span>
                             <p class="prediction-date">
                                 Expected to start
-                                <span th:text="${prediction != null} ? ${prediction.expectedStart} : 'Log a period first'"
+                                <span th:text="${prediction != null} ? ${prediction.startDate} : 'Log a period first'"
                                       id="prediction-date">Log a period first</span>
                             </p>
                         </div>
                     </div>
                     <div class="prediction-footer">
                         Predicted duration:
-                        <span th:text="${prediction != null} ? ${prediction.expectedLength} + ' days'" id="prediction-length"></span>
+                        <span th:text="${prediction != null} ? ${prediction.length} + ' days'" id="prediction-length"></span>
                     </div>
                 </div>
 
