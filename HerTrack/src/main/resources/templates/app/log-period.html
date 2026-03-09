@@ -47,7 +47,6 @@
                         <i data-lucide="activity"></i> Symptoms
                     </label>
                     <div class="symptoms-grid">
-                        <!-- Visible toggle buttons — JS syncs state to hidden checkboxes below -->
                         <button type="button" class="symptom-btn" data-symptom="cramps">Cramps</button>
                         <button type="button" class="symptom-btn" data-symptom="headache">Headache</button>
                         <button type="button" class="symptom-btn" data-symptom="bloating">Bloating</button>
@@ -57,12 +56,6 @@
                         <button type="button" class="symptom-btn" data-symptom="hotFlashes">Backache</button>
                         <button type="button" class="symptom-btn" data-symptom="acne">Acne</button>
                     </div>
-
-                    <!--
-                        Hidden checkboxes — named to match Symptom model fields.
-                        Spring MVC binds these via "symptom.fieldName" on the Cycle object.
-                        JS toggles their checked state when the user clicks a symptom button.
-                    -->
                     <input type="checkbox" id="sym-cramps"    th:field="*{symptom.cramps}"  name="symptom.cramps"     style="display:none">
                     <input type="checkbox" id="sym-headache"  th:field="*{symptom.headache}"  name="symptom.headache"   style="display:none">
                     <input type="checkbox" id="sym-bloating"  th:field="*{symptom.nausea}" name="symptom.nausea"     style="display:none">

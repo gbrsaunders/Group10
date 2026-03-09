@@ -21,7 +21,6 @@
             </div>
 
             <div class="tracker-grid">
-                <!-- Prediction Card — populated from model or computed client-side -->
                 <div class="prediction-card">
                     <i data-lucide="sparkles" class="prediction-bg-icon"></i>
                     <div class="prediction-content">
@@ -30,7 +29,6 @@
                             Next Period
                         </h2>
                         <div>
-                            <!-- th:text pulls server-computed prediction; JS fallback fills it if null -->
                             <span class="prediction-days"
                                   th:text="${prediction != null} ? ${predictionDays} : '-'"
                                   id="prediction-days">-</span>
@@ -48,7 +46,6 @@
                     </div>
                 </div>
 
-                <!-- Cycle History -->
                 <div class="history-section">
                     <div class="history-header">
                         <h2 class="section-title">
@@ -58,12 +55,10 @@
                         <a th:href="@{/logPeriod(accountID=${accountID})}" class="btn-secondary">Log New Period</a>                    </div>
 
                     <div class="period-list">
-                        <!-- Empty state -->
                         <div th:if="${#lists.isEmpty(cycles)}" class="empty-state">
                             No past cycles recorded. Log your first period to get started!
                         </div>
 
-                        <!-- Period entries -->
                         <div th:if="${cycles != null and !cycles.isEmpty()}"  th:each="cycle : ${cycles}" class="period-card">
                             <div class="period-date">
                                 <div class="period-label">Start Date</div>

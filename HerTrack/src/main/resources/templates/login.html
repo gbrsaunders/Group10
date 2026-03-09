@@ -26,7 +26,6 @@
             <p class="auth-subtitle">Sign in to your HerTrack account</p>
         </div>
 
-        <!-- Display error message if login fails -->
         <div th:if="${error}" class="auth-error" style="color:#e11d48;text-align:center;margin-bottom:1rem;" th:text="${error}"></div>
 
         <form th:action="@{/checkLogin}" method="post" th:object="${account}"  class="auth-form">

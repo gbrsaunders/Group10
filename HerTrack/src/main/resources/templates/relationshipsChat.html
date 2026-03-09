@@ -26,7 +26,6 @@
 
         <div class="chat-body">
 
-            <!-- Sidebar: room list -->
             <aside class="chat-sidebar">
                 <p class="sidebar-title">Rooms</p>
                 <a href="/chat/ai">
@@ -61,18 +60,14 @@
                 </a>
             </aside>
 
-            <!-- Main chat area -->
             <div class="chat-main">
 
-                <!-- Messages -->
                 <div class="chat-messages" id="chat">
 
-                    <!-- Room label -->
                     <div class="chat-room-label">
                         <span class="room-label-tag"># Relationships</span>
                     </div>
 
-                    <!-- Thymeleaf: existing messages from DB -->
                     <div th:each="msg : ${allChats}" class="message other">
                         <div class="message-header">
                             <div class="message-avatar user">
@@ -87,7 +82,6 @@
 
                 </div>
 
-                <!-- Input bar -->
                 <div class="chat-input-container">
                     <div class="chat-input-form">
                         <input id="senderInput"
