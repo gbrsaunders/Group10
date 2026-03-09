@@ -23,7 +23,7 @@
         </div>
 
         <div class="dashboard-grid">
-            <a th:href="@{/tracker(accountID=${accountID})}"  class="dashboard-card"
+            <a th:href="@{/tracker(accountID=${session.accountID})}" class="dashboard-card"
                style="background: linear-gradient(to bottom right, #fff1f2, #fce7f3); border-color: #fecdd3;">
                 <div class="card-icon-wrapper">
                     <i data-lucide="calendar-days" style="color: #f43f5e;"></i>
@@ -33,7 +33,7 @@
                 <div class="card-footer">Open module &rarr;</div>
             </a>
 
-            <a th:href="@{/app/chat}" class="dashboard-card"
+            <a th:href="@{/chat/general}" class="dashboard-card"
                style="background: linear-gradient(to bottom right, #fdf4ff, #f3e8ff); border-color: #e9d5ff;">
                 <div class="card-icon-wrapper">
                     <i data-lucide="message-square-heart" style="color: #c026d3;"></i>
@@ -43,7 +43,7 @@
                 <div class="card-footer">Open module &rarr;</div>
             </a>
 
-            <a th:href="@{/app/forum}" class="dashboard-card"
+            <a th:href="@{/forum(accountID=${session.accountID})}" class="dashboard-card"
                style="background: linear-gradient(to bottom right, #fffbeb, #ffedd5); border-color: #fde68a;">
                 <div class="card-icon-wrapper">
                     <i data-lucide="users" style="color: #f59e0b;"></i>
@@ -53,7 +53,7 @@
                 <div class="card-footer">Open module &rarr;</div>
             </a>
 
-            <a th:href="@{/app/university-resources}" class="dashboard-card"
+            <a th:href="@{/uniResources(accountID=${session.accountID})}" class="dashboard-card"
                style="background: linear-gradient(to bottom right, #eef2ff, #dbeafe); border-color: #c7d2fe;">
                 <div class="card-icon-wrapper">
                     <i data-lucide="graduation-cap" style="color: #6366f1;"></i>
@@ -63,7 +63,7 @@
                 <div class="card-footer">Open module &rarr;</div>
             </a>
 
-            <a th:href="@{/resources(accountID=${accountID})}" class="dashboard-card"
+            <a th:href="@{/resources(accountID=${session.accountID})}"class="dashboard-card"
                style="background: linear-gradient(to bottom right, #ecfdf5, #ccfbf1); border-color: #a7f3d0;">
                 <div class="card-icon-wrapper">
                     <i data-lucide="sparkles" style="color: #10b981;"></i>
@@ -73,7 +73,7 @@
                 <div class="card-footer">Open module &rarr;</div>
             </a>
 
-            <a th:href="@{/app/admin}" class="dashboard-card"
+            <a th:href="@{/admin(accountID=${session.accountID})}" class="dashboard-card"
                style="background: linear-gradient(to bottom right, #f1f5f9, #e2e8f0); border-color: #cbd5e1;">
                 <div class="card-icon-wrapper">
                     <i data-lucide="shield" style="color: #64748b;"></i>
