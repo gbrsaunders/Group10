@@ -21,24 +21,44 @@ repositories {
 }
 
 dependencies {
+
+    // BOM for Spring AI version management
     implementation platform("org.springframework.ai:spring-ai-bom:1.0.0-M3")
-    implementation 'org.springframework.ai:spring-ai-huggingface-spring-boot-starter'
+
+    // Core Web & API
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // Templating
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Data Persistence
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    // WebSocket & Messaging
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
     implementation 'org.webjars:sockjs-client:1.0.2'
     implementation 'org.webjars:stomp-websocket:2.3.3'
     implementation 'org.webjars:webjars-locator-core'
-    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    // AI Integration
+    implementation 'org.springframework.ai:spring-ai-huggingface-spring-boot-starter'
+
+    // Development & Tools
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
+
+    // Testing
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
+    // Security (Uncomment when ready)
+    // implementation 'org.springframework.boot:spring-boot-starter-security'
+    // implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    // implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    // testImplementation 'org.springframework.boot:spring-boot-starter-security-test'
 }
 
 tasks.named('test') {
