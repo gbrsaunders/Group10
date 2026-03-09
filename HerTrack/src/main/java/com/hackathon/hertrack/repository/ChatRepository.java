@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ChatRepository extends JpaRepository<ChatMessage, Long> {
+    // Sort messages by date
     List<ChatMessage> findTop10ByRoomOrderByLocaldatetimeAsc(String room);
 }

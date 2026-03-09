@@ -27,7 +27,7 @@ public class LoginController {
     public String homePage() {
         return "redirect:/login";
     }
-
+    // Register account
     @PostMapping("/register")
     public String createAccount(@Valid @ModelAttribute Account account, BindingResult result, Model model) {
         if (result.hasErrors()) {
@@ -37,7 +37,7 @@ public class LoginController {
         accountService.saveDetails(account);
         return "redirect:/login";
     }
-
+    // Check logins and see if password and user is correct as well as assign USER role
     @RequestMapping("/checkLogin")
     public String checkLogin(@RequestParam String username, @RequestParam String password, RedirectAttributes redirectAttributes, HttpSession session) {
         Account acc = accountService.findByUsername(username);
@@ -48,19 +48,19 @@ public class LoginController {
         redirectAttributes.addFlashAttribute("error", "Account does not exist or password is incorrect");
         return "redirect:/login";
     }
-
+    // Login
     @RequestMapping("/login")
     public String showLoginPage(Model model) {
         model.addAttribute("account", new Account());
         return "login";
     }
-
+    // Signup
     @RequestMapping("/signup")
     public String showSignupPage(Model model) {
         model.addAttribute("account", new Account());
         return "signup";
     }
-
+    // Logout
     @RequestMapping("/logout")
     public String signOut(HttpSession session) {
         session.invalidate();

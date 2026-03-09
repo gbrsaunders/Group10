@@ -1,6 +1,4 @@
-// ========== UNIVERSITY RESOURCES PAGE ==========
-// Client-side search filter for the bathroom list.
-// The "Report Empty" button submits a form to the server (no JS needed for that action).
+// Search system to search through bathrooms either through name or building or term.
 
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('bathroom-search');

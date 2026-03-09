@@ -1,6 +1,4 @@
-// ========== LOG PERIOD PAGE ==========
-// Handles symptom toggle buttons and packs selected values into a hidden input
-// before the form is submitted to the Spring controller.
+// Tracker page for the symptoms as the buttons arent checkboxes, which Thymeleaf hates
 
 document.addEventListener('DOMContentLoaded', () => {
     const selectedSymptoms = new Set();

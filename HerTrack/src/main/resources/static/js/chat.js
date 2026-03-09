@@ -1,4 +1,6 @@
-// ========== CHAT PAGE ==========
+
+
+// JavaScript placeholders with some animation logic
 
 const chatMessages = {
     general: [

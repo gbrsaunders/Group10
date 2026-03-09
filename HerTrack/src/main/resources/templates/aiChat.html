@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Assistant – HerTrack</title>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        /* AI-specific bubble styling */
+        .message.ai-response .message-bubble {
+            background: linear-gradient(135deg, #fae8ff 0%, #fce7f3 100%);
+            border: 1px solid #e879f9;
+            color: #701a75;
+            border-top-left-radius: 0.25rem;
+        }
+
+        .message.ai-response .message-avatar {
+            background: #fae8ff;
+            color: #c026d3;
+        }
+
+        /* Typing indicator */
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+
+        .typing-indicator.visible {
+            display: flex;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 0.25rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            border-top-left-radius: 0.25rem;
+        }
+
+        .typing-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            background: #c026d3;
+            border-radius: 50%;
+            animation: typingBounce 1.2s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        /* AI tab active styling */
+        .chat-tab.ai.active {
+            color: #c026d3;
+            border-bottom: 2px solid #c026d3;
+        }
+
+        /* AI room button */
+        .room-btn.ai-room.active {
+            background: #fae8ff;
+            color: #701a75;
+        }
+
+        .room-btn.ai-room:hover {
+            background: #fae8ff;
+            color: #701a75;
+        }
+
+        /* Send button for AI — purple */
+        .chat-send-btn.ai-send {
+            background: #c026d3;
+        }
+
+        .chat-send-btn.ai-send:hover {
+            background: #a21caf;
+        }
+
+        /* AI disclaimer */
+        .ai-disclaimer {
+            text-align: center;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            padding: 0.5rem 1rem;
+            background: #fdf4ff;
+            border-top: 1px solid #f3e8ff;
+        }
+    </style>
+</head>
+<body>
+
+<!-- App Header -->
+<div th:replace="~{fragments/nav :: app-nav}" th:with="activePage='dashboard'"></div>
+
+<!-- Chat Layout -->
+<main class="app-main">
+    <div class="chat-container">
+
+        <!-- Room Tabs -->
+        <div class="chat-tabs">
+            <button class="chat-tab ai active">
+                <i data-lucide="sparkles" style="width:1.1rem;height:1.1rem;"></i>
+                AI Health Assistant
+            </button>
+        </div>
+
+        <div class="chat-body">
+
+            <!-- Sidebar: room list -->
+            <aside class="chat-sidebar">
+                <p class="sidebar-title">Rooms</p>
+                <a href="/chat/ai">
+                    <button class="room-btn ai-room">
+                        <i data-lucide="bot" style="width:1rem;height:1rem;"></i>
+                        AI Assistant
+                    </button>
+                </a>
+                <a href="/chat/general">
+                    <button class="room-btn">
+                        <i data-lucide="hash" style="width:1rem;height:1rem;"></i>
+                        General
+                    </button>
+                </a>
+                <a href="/chat/relationships">
+                    <button class="room-btn">
+                        <i data-lucide="heart" style="width:1rem;height:1rem;"></i>
+                        Relationships
+                    </button>
+                </a>
+                <a href="/chat/beauty">
+                    <button class="room-btn">
+                        <i data-lucide="sparkles" style="width:1rem;height:1rem;"></i>
+                        Beauty &amp; Wellbeing
+                    </button>
+                </a>
+                <a href="/chat/endometriosis">
+                    <button class="room-btn">
+                        <i data-lucide="activity" style="width:1rem;height:1rem;"></i>
+                        Endometriosis
+                    </button>
+                </a>
+            </aside>
+
+            <!-- Main chat area -->
+            <div class="chat-main">
+
+                <!-- Messages -->
+                <div class="chat-messages" id="chat">
+
+                    <!-- Room label -->
+                    <div class="chat-room-label">
+                        <span class="room-label-tag"># AI Assistant</span>
+                    </div>
+
+                    <!-- Welcome message from AI -->
+                    <div class="message ai-response other">
+                        <div class="message-header">
+                            <div class="message-avatar ai">
+                                <i data-lucide="bot" style="width:0.875rem;height:0.875rem;"></i>
+                            </div>
+                            <span class="message-meta">HerTrack AI · now</span>
+                        </div>
+                        <div class="message-bubble">
+                            Hi! I'm your personal menstrual health assistant. Ask me anything about your cycle, symptoms, or general reproductive health — I'm here to help. 💜
+                        </div>
+                    </div>
+
+                    <!-- Typing indicator -->
+                    <div class="typing-indicator" id="typingIndicator">
+                        <div class="message-avatar ai" style="width:1.5rem;height:1.5rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fae8ff;color:#c026d3;flex-shrink:0;">
+                            <i data-lucide="bot" style="width:0.875rem;height:0.875rem;"></i>
+                        </div>
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Disclaimer -->
+                <div class="ai-disclaimer">
+                    AI responses are for informational purposes only and not medical advice.
+                </div>
+
+                <!-- Input bar -->
+                <div class="chat-input-container">
+                    <div class="chat-input-form">
+                        <input id="messageInput"
+                               type="text"
+                               class="chat-input"
+                               placeholder="Ask about your cycle, symptoms, or health..."/>
+                        <button id="sendMessage" class="chat-send-btn ai-send" title="Send">
+                            <i data-lucide="send" style="width:1.25rem;height:1.25rem;"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="toast-container"></div>
+
+<script>
+    lucide.createIcons();
+
+    var chat = document.getElementById('chat');
+    var typingIndicator = document.getElementById('typingIndicator');
+
+    function scrollToBottom() {
+        chat.scrollTop = chat.scrollHeight;
+    }
+
+    function appendUserMessage(content) {
+        var wrapper = document.createElement('div');
+        wrapper.classList.add('message', 'self');
+
+        var header = document.createElement('div');
+        header.classList.add('message-header');
+        header.innerHTML =
+            '<span class="message-meta">You · now</span>' +
+            '<div class="message-avatar user">' +
+            '<i data-lucide="user" style="width:0.875rem;height:0.875rem;"></i>' +
+            '</div>';
+
+        var bubble = document.createElement('div');
+        bubble.classList.add('message-bubble');
+        bubble.textContent = content;
+
+        wrapper.appendChild(header);
+        wrapper.appendChild(bubble);
+
+        // Insert before typing indicator
+        chat.insertBefore(wrapper, typingIndicator);
+        lucide.createIcons();
+        scrollToBottom();
+    }
+
+    function appendAIMessage(content) {
+        var wrapper = document.createElement('div');
+        wrapper.classList.add('message', 'ai-response', 'other');
+
+        var header = document.createElement('div');
+        header.classList.add('message-header');
+        header.innerHTML =
+            '<div class="message-avatar ai">' +
+            '<i data-lucide="bot" style="width:0.875rem;height:0.875rem;"></i>' +
+            '</div>' +
+            '<span class="message-meta">HerTrack AI · now</span>';
+
+        var bubble = document.createElement('div');
+        bubble.classList.add('message-bubble');
+        bubble.textContent = content;
+
+        wrapper.appendChild(header);
+        wrapper.appendChild(bubble);
+
+        // Insert before typing indicator
+        chat.insertBefore(wrapper, typingIndicator);
+        lucide.createIcons();
+        scrollToBottom();
+    }
+
+    function setLoading(loading) {
+        document.getElementById('sendMessage').disabled = loading;
+        document.getElementById('messageInput').disabled = loading;
+        if (loading) {
+            typingIndicator.classList.add('visible');
+        } else {
+            typingIndicator.classList.remove('visible');
+        }
+        scrollToBottom();
+    }
+
+    function sendMessage() {
+        var input = document.getElementById('messageInput');
+        var content = input.value.trim();
+        if (!content) return;
+
+        input.value = '';
+        appendUserMessage(content);
+        setLoading(true);
+
+        fetch('/ai/generate?message=' + encodeURIComponent(content))
+            .then(function(response) {
+                if (!response.ok) throw new Error('Network error');
+                return response.text();
+            })
+            .then(function(text) {
+                setLoading(false);
+                appendAIMessage(text);
+            })
+            .catch(function(err) {
+                setLoading(false);
+                appendAIMessage("Sorry, I couldn't process your request right now. Please try again.");
+            });
+    }
+
+    document.getElementById('messageInput')
+        .addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+    document.getElementById('sendMessage').onclick = sendMessage;
+
+    scrollToBottom();
+</script>
+</body>
+</html>

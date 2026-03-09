@@ -20,7 +20,7 @@ public class ChatController {
     public ChatController(ChatRepository chatRepository) {
         this.chatRepository = chatRepository;
     }
-
+    // Gets the chat message from the json and saves it to the chat rep
     @MessageMapping("/sendMessage/general")
     @SendTo("/topic/messages/general")
     public ChatMessage sendMessageGeneral(@Payload ChatMessage message) {
@@ -51,8 +51,8 @@ public class ChatController {
     }
 
     @GetMapping("/chat/{roomName}")
-    public String chat(@PathVariable String roomName,
-                       Model model) {
+    public String chat(@PathVariable String roomName, Model model) {
+        // Switches to the different channels including the AI
         switch (roomName) {
             case "beauty" -> {
                 List<ChatMessage> allBeautyWellChats = chatRepository.findTop10ByRoomOrderByLocaldatetimeAsc("beauty");
@@ -72,6 +72,7 @@ public class ChatController {
                 //model.addAttribute("accountID", accountID);
                 return "endoChat";
             }
+            case "ai" -> { return "aiChat"; }
             default -> {
                 List<ChatMessage> allGeneralChats = chatRepository.findTop10ByRoomOrderByLocaldatetimeAsc("general");
                 model.addAttribute("allChats", allGeneralChats);

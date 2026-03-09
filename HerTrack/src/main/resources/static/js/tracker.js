@@ -1,8 +1,4 @@
-// ========== TRACKER PAGE ==========
-// Client-side period prediction helper.
-// If the server already provides prediction data via Thymeleaf model attributes,
-// this script is a no-op. It only fills in prediction fields when the server
-// didn't compute them (e.g., during local development without a backend).
+// Adds the cycle tags once added, however all placeholders have been replaced.
 
 document.addEventListener('DOMContentLoaded', () => {
     const daysEl    = document.getElementById('prediction-days');

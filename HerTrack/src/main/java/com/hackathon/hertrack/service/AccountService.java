@@ -49,11 +49,13 @@ public class AccountService {
         if (cycles.size() >= 2) {
             predicted = new Cycle();
             long totalLength = 0;
+            // Calculate the average from 2 cycles, by comparing to each other
             for (int i = 0; i < cycles.size() - 1; i++) {
                 LocalDate start1 = cycles.get(i).getStartDate();
                 LocalDate start2 = cycles.get(i + 1).getStartDate();
                 totalLength += ChronoUnit.DAYS.between(start1, start2);
             }
+            // Add the average length and then seeing when the next one will occur
             long averageCycleLength = totalLength / (cycles.size() - 1);
             LocalDate lastStart = cycles.getLast().getStartDate();
             LocalDate nextCycleStartDate = lastStart.plusDays(averageCycleLength);
@@ -62,6 +64,7 @@ public class AccountService {
             }
             predicted.setLength((int) ChronoUnit.DAYS.between(lastStart, nextCycleStartDate));
             long daysSinceLast = ChronoUnit.DAYS.between(lastStart, LocalDate.now()) % predicted.getLength();
+            // Was going to implement it, but cycles different alot so removed it
             if (daysSinceLast < 6) {
                 account.setCurrentPhase("Menstrual");
             } else if (daysSinceLast < 14) {
@@ -73,6 +76,7 @@ public class AccountService {
             }
             predicted.setStartDate(nextCycleStartDate);
             Symptom predictedSymptom = new Symptom();
+            // Setting symptoms same as the last, as its hard to predict
             predictedSymptom.CopySymptoms(cycles.getLast().getSymptom());
             predicted.setSymptom(predictedSymptom);
         }

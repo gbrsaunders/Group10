@@ -32,23 +32,23 @@ public class GeneralController {
     private long getAccountId(HttpSession session) {
         return (long) session.getAttribute("accountID");
     }
-
+    // Goes to admin page with accounts
     @RequestMapping("/admin")
     private String admin(HttpSession session, Model model) {
         model.addAttribute("accounts", accountService.findAll());
         return "app/admin";
     }
-
+    // Goes to resources such as the bathrooms
     @RequestMapping("/resources")
     private String resource(HttpSession session, Model model) {
         return "app/extra-resources";
     }
-
+    // Goes to dashboard
     @RequestMapping("/dashboard")
     private String dashboard(HttpSession session, Model model) {
         return "app/dashboard";
     }
-
+    // Goes to the tracker page where it predicts and gets the average length and information regarding that
     @RequestMapping("/logPeriod")
     private String periodTracker(HttpSession session, Model model) {
         Cycle cycle = new Cycle();
@@ -56,13 +56,13 @@ public class GeneralController {
         model.addAttribute("cycle", cycle);
         return "app/log-period";
     }
-
+    // Bathrooms and important figures
     @RequestMapping("/uniResources")
     private String uniResources(HttpSession session, Model model) {
         model.addAttribute("bathrooms", bathroomService.findAll());
         return "app/university-resources";
     }
-
+    // To add a cycle to the accounts cycles
     @PostMapping("/addCycle")
     private String addCycle(HttpSession session, @ModelAttribute Cycle cycle, Model model) {
         if (cycle.getLength() == null) {
@@ -84,7 +84,7 @@ public class GeneralController {
         }
         return "redirect:/tracker";
     }
-
+    // Tracker page and its services
     @RequestMapping("/tracker")
     private String tracker(HttpSession session, Model model) {
         long accountID = getAccountId(session);

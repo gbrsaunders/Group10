@@ -25,6 +25,7 @@ public class SymptomService {
     public Optional<Symptom> findById(Long id){
         return symptomRepo.findById(id);
     }
+    // Copy symptoms from another, this is used in AccountService
     public void checkSymptom(Symptom symptom){
         if (symptom.getCramps() == null) symptom.setCramps(false);
         if (symptom.getFatigue() == null) symptom.setFatigue(false);

@@ -1,6 +1,4 @@
-// ========== UTILITY FUNCTIONS ==========
-// These are client-side helpers used across all pages.
-// State that was previously in AppState is now managed server-side via Spring.
+// Used for the admin page
 
 /**
  * Display a toast notification.
