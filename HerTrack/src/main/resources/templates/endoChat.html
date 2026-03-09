@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>PCOS &amp; Endometriosis Chatroom – HerTrack</title>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.1/stomp.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+
+<!-- App Header -->
+<header class="app-header">
+    <div class="app-header-content">
+        <div class="app-logo">
+            <i data-lucide="heart" class="app-logo-icon"></i>
+            <span class="app-logo-text">HerTrack</span>
+        </div>
+        <nav class="app-nav">
+            <a href="/dashboard" class="nav-link">
+                <i data-lucide="layout-dashboard"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="/chat/endometriosis" class="nav-link active">
+                <i data-lucide="message-circle"></i>
+                <span>Chat</span>
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- Chat Layout -->
+<main class="app-main">
+    <div class="chat-container">
+
+        <!-- Room Tabs -->
+        <div class="chat-tabs">
+            <button class="chat-tab active">
+                <i data-lucide="activity" style="width:1.1rem;height:1.1rem;"></i>
+                Community Chat
+            </button>
+        </div>
+
+        <div class="chat-body">
+
+            <!-- Sidebar: room list -->
+            <aside class="chat-sidebar">
+                <p class="sidebar-title">Rooms</p>
+                <a href="/chat/general">
+                    <button class="room-btn">
+                        <i data-lucide="hash" style="width:1rem;height:1rem;"></i>
+                        General
+                    </button>
+                </a>
+                <a href="/chat/relationships">
+                    <button class="room-btn">
+                        <i data-lucide="heart" style="width:1rem;height:1rem;"></i>
+                        Relationships
+                    </button>
+                </a>
+                <a href="/chat/beauty">
+                    <button class="room-btn">
+                        <i data-lucide="sparkles" style="width:1rem;height:1rem;"></i>
+                        Beauty &amp; Wellbeing
+                    </button>
+                </a>
+                <a href="/chat/endometriosis">
+                    <button class="room-btn active">
+                        <i data-lucide="activity" style="width:1rem;height:1rem;"></i>
+                        Endometriosis
+                    </button>
+                </a>
+            </aside>
+
+            <!-- Main chat area -->
+            <div class="chat-main">
+
+                <!-- Messages -->
+                <div class="chat-messages" id="chat">
+
+                    <!-- Room label -->
+                    <div class="chat-room-label">
+                        <span class="room-label-tag"># PCOS &amp; Endometriosis</span>
+                    </div>
+
+                    <!-- Thymeleaf: existing messages from DB -->
+                    <div th:each="msg : ${allChats}" class="message other">
+                        <div class="message-header">
+                            <div class="message-avatar user">
+                                <i data-lucide="user" style="width:0.875rem;height:0.875rem;"></i>
+                            </div>
+                            <span class="message-meta"
+                                  th:text="${msg.sender} + ' · ' + ${#temporals.format(msg.localdatetime, 'HH:mm')}">
+                                </span>
+                        </div>
+                        <div class="message-bubble" th:text="${msg.content}"></div>
+                    </div>
+
+                </div>
+
+                <!-- Input bar -->
+                <div class="chat-input-container">
+                    <div class="chat-input-form">
+                        <input id="senderInput"
+                               type="text"
+                               class="chat-input"
+                               placeholder="Your anonymous alias..."
+                               style="max-width: 180px; flex: none;"/>
+                        <input id="messageInput"
+                               type="text"
+                               class="chat-input"
+                               placeholder="Type a message..."/>
+                        <button id="sendMessage" class="chat-send-btn" title="Send">
+                            <i data-lucide="send" style="width:1.25rem;height:1.25rem;"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</main>
+
+<div id="toast-container"></div>
+
+<script>
+    lucide.createIcons();
+
+    var stompClient = null;
+    var currentRoom = "endometriosis";
+
+    function setConnected(connected) {
+        document.getElementById('sendMessage').disabled = !connected;
+    }
+
+    function connect() {
+        var socket = new SockJS('/chat');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            setConnected(true);
+            stompClient.subscribe('/topic/messages/' + currentRoom, function (message) { // fix: added missing /
+                showMessage(JSON.parse(message.body));
+            });
+        });
+    }
+
+    function showMessage(message) {
+        var chat = document.getElementById('chat');
+
+        var wrapper = document.createElement('div');
+        wrapper.classList.add('message', 'other');
+
+        var header = document.createElement('div');
+        header.classList.add('message-header');
+        header.innerHTML =
+            '<div class="message-avatar user">' +
+            '<i data-lucide="user" style="width:0.875rem;height:0.875rem;"></i>' +
+            '</div>' +
+            '<span class="message-meta">' + message.sender + '</span>';
+
+        var bubble = document.createElement('div');
+        bubble.classList.add('message-bubble');
+        bubble.textContent = message.content;
+
+        wrapper.appendChild(header);
+        wrapper.appendChild(bubble);
+        chat.appendChild(wrapper);
+        chat.scrollTop = chat.scrollHeight;
+
+        lucide.createIcons();
+    }
+
+    function sendMessage(message) {
+        var sender = document.getElementById('senderInput').value;
+        var content = document.getElementById('messageInput').value;
+
+        if (!sender || !content) return;
+
+        var chatMessage = {
+            sender: sender,
+            content: content,
+            room: currentRoom
+        }
+        stompClient.send("/app/sendMessage/" + currentRoom, {}, JSON.stringify(chatMessage)); // fix: added / + currentRoom
+        document.getElementById('messageInput').value = '';
+    }
+
+    document.getElementById('messageInput')
+        .addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+    document.getElementById('sendMessage').onclick = sendMessage;
+    window.onload = connect;
+</script>
+</body>
+</html>
