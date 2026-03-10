@@ -16,7 +16,7 @@
     <main class="app-main">
         <div class="form-container">
             <div class="form-header">
-                <a th:href="@{/app/forum}" class="back-btn">
+                <a th:href="@{/forum}" class="back-btn">
                     <i data-lucide="arrow-left"></i>
                 </a>
                 <div>
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <form th:action="@{/app/create-post}" method="post" class="form-card">
+            <form th:action="@{/forum/create-post}" method="post" class="form-card">
                 <div class="form-group">
                     <label class="form-group-label">
                         <i data-lucide="type"></i> Title
@@ -57,8 +57,9 @@
                               placeholder="Share your thoughts, ask a question, or provide support..."></textarea>
                 </div>
 
-                <!-- CSRF token for Spring Security -->
+                <!-- CSRF token for Spring Security
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                -->
 
                 <div class="form-footer" style="display:flex;justify-content:flex-end;">
                     <button type="submit" class="btn-save" style="background:#f59e0b;">
