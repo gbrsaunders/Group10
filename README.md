@@ -4,7 +4,7 @@
 
 ## Tech Stack
 - Spring, HTML with Thymeleaf, CSS and Javascript with the use of Hugging Face
-- 
+
 ## Team Information
 - Callum and Thana is responsible for the frontend which includes HTML, CSS and JavaScript which they implemented it on March 7th and March 8th.
 - Gabriel is responsible for the logic behind the logging of the cycles, bathroooms, and the use of AI with Hugging Face.
