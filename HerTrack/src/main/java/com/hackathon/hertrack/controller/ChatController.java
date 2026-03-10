@@ -1,25 +1,41 @@
 package com.hackathon.hertrack.controller;
 
+import com.hackathon.hertrack.model.Account;
 import com.hackathon.hertrack.model.ChatMessage;
+import com.hackathon.hertrack.model.Comment;
+import com.hackathon.hertrack.model.ForumPost;
 import com.hackathon.hertrack.repository.ChatRepository;
+import com.hackathon.hertrack.repository.CommentRepo;
+import com.hackathon.hertrack.repository.PostRepo;
+import com.hackathon.hertrack.service.AccountService;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
 @Controller
 public class ChatController {
+    @Autowired
+    AccountService accountService;
+
 
     private final ChatRepository chatRepository;
-    public ChatController(ChatRepository chatRepository) {
+    private final PostRepo postRepo;
+    private final CommentRepo commentRepo;
+
+    public ChatController(ChatRepository chatRepository, PostRepo postRepo, CommentRepo commentRepo) {
         this.chatRepository = chatRepository;
+        this.postRepo = postRepo;
+        this.commentRepo = commentRepo;
     }
+
     // Gets the chat message from the json and saves it to the chat rep
     @MessageMapping("/sendMessage/general")
     @SendTo("/topic/messages/general")
@@ -82,9 +98,83 @@ public class ChatController {
         }
 
     }
-
+    // Forum page
     @RequestMapping("/forum")
-    public String forum() {
+    public String forum(HttpSession session, Model model) {
+        long accountID = (long) session.getAttribute("accountID");
+        Account account = accountService.findById(accountID);
+        if (account == null) {
+            return "redirect:/login";
+        }
+        List<ForumPost> allPosts = postRepo.findAllByOrderByScoreDesc();
+        model.addAttribute("posts", allPosts);
         return "forum";
     }
+
+    @GetMapping("/forum/create-post")
+    public String createPostForm(HttpSession session) {
+        long accountID = (long) session.getAttribute("accountID");
+        Account account = accountService.findById(accountID);
+        if (account == null) {
+            return "redirect:/login";
+        }
+
+        return "/app/create-post";
+    }
+
+    @PostMapping("/forum/create-post")
+    public String createPost(@RequestParam String title, @RequestParam String content, @RequestParam String category, HttpSession session, RedirectAttributes redirectAttributes) {
+        long accountID = (long) session.getAttribute("accountID");
+        Account account = accountService.findById(accountID);
+        if (account == null) {
+            return "redirect:/login";
+        }
+
+        ForumPost post = new ForumPost();
+        post.setTitle(title);
+        post.setContent(content);
+        post.setCategory(category);
+        postRepo.save(post);
+
+        redirectAttributes.addFlashAttribute("success", "Post created successfully");
+        return "redirect:/forum";
+    }
+
+    @PostMapping("/forum/vote")
+    public String votePost(@RequestParam Long postId, @RequestParam int vote) {
+        postRepo.findById(postId).ifPresent(post -> {
+            post.setScore(post.getScore() + vote);
+            postRepo.save(post);
+        });
+        return "redirect:/forum";
+    }
+
+    @PostMapping("/forum/comment")
+    public String addComment(@RequestParam Long postId, @RequestParam String text) {
+        postRepo.findById(postId).ifPresent(post -> {
+            Comment comment = new Comment();
+            comment.setText(text);
+            comment.setForumPost(post);
+            commentRepo.save(comment);
+        });
+        return "redirect:/forum/" + postId;
+    }
+
+    @PostMapping("/forum/comment-vote")
+    public String voteComment(@RequestParam Long postId, @RequestParam Long commentId, @RequestParam int vote) {
+        commentRepo.findById(commentId).ifPresent(comment -> {
+            comment.setScore(comment.getScore() + vote);
+            commentRepo.save(comment);
+        });
+        return "redirect:/forum/" + postId;
+    }
+
+    @GetMapping("/forum/{id}")
+    public String viewPost(@PathVariable Long id, Model model) {
+        List<ForumPost> allPosts = postRepo.findAllByOrderByScoreDesc();
+        model.addAttribute("posts", allPosts);
+        model.addAttribute("expandedPostId", id);
+        return "forum";
+    }
+
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <body>
 
 <header th:fragment="app-nav" class="app-header">
@@ -27,7 +27,7 @@
                 <i data-lucide="message-circle"></i>
                 <span>Chat</span>
             </a>
-            <a th:href="@{/forum}" class="nav-link"
+            <a th:href="@{/forum(accountID=${session.accountID})}" class="nav-link"
                th:classappend="${activePage == 'forum'} ? ' active'">
                 <i data-lucide="users"></i>
                 <span>Forum</span>
