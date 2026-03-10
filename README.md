@@ -1,4 +1,4 @@
-# Hackathon 2026 - Group 10
+# Hackathon 2026 - HerTrack
 ## Prompt - An application to improves Woman's lives.
 ## Members: Gabriel, Dylan, Callum and Thana
 
